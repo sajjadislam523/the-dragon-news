@@ -1,12 +1,18 @@
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import user from "../assets/icons/user.png";
 
 const Navbar = () => {
     const links = (
         <div className="flex items-center gap-4">
-            <NavLink to="/">Home</NavLink>
-            <NavLink to="/about">About</NavLink>
-            <NavLink to="/carrier">Carrier</NavLink>
+            <NavLink className="hover:underline" to="/">
+                Home
+            </NavLink>
+            <NavLink className="hover:underline" to="/about">
+                About
+            </NavLink>
+            <NavLink className="hover:underline" to="/carrier">
+                Carrier
+            </NavLink>
         </div>
     );
     return (
@@ -15,9 +21,12 @@ const Navbar = () => {
             <div>{links}</div>
             <div className="flex items-center gap-4">
                 <img className="w-8" src={user} alt="" />
-                <button className="bg-[#403F3F] text-white px-5 py-1">
+                <Link
+                    to="/auth/login"
+                    className="bg-[#403F3F] text-white px-5 py-1"
+                >
                     Login
-                </button>
+                </Link>
             </div>
         </div>
     );
