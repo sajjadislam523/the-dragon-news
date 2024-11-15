@@ -1,9 +1,10 @@
 import PropTypes from "prop-types";
 import { FaBookmark, FaEye, FaShareAlt } from "react-icons/fa";
 import { AiFillStar } from "react-icons/ai";
+import { Link } from "react-router-dom";
 
 const NewsCard = ({ singleNews }) => {
-    const { author, title, details, thumbnail_url, rating, total_view } =
+    const { _id, author, title, details, thumbnail_url, rating, total_view } =
         singleNews;
     return (
         <div className="p-4 mx-auto bg-white rounded-lg shadow-lg ">
@@ -43,7 +44,12 @@ const NewsCard = ({ singleNews }) => {
             {/* Description */}
             <p className="mt-3 text-gray-600">
                 {details.substring(0, 100)}...{" "}
-                <span className="text-blue-500 cursor-pointer">Read More</span>
+                <Link
+                    to={`/news/${_id}`}
+                    className="text-blue-500 cursor-pointer"
+                >
+                    Read More
+                </Link>
             </p>
 
             {/* Footer */}

@@ -1,15 +1,25 @@
-import { useContext } from "react";
-import { Link } from "react-router-dom";
+import { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../provider/AuthProvider";
 
 const Register = () => {
-    const { createNewUser, setUser } = useContext(AuthContext);
+    const { createNewUser, setUser, updateUserProfile } =
+        useContext(AuthContext);
+    const [error, setError] = useState({});
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
         const form = new FormData(e.target);
         const name = form.get("name");
+
+        const navigate = useNavigate;
+
+        if (name.length < 5) {
+            setError({ ...error, name: "Must be more than 5 characters" });
+            return;
+        }
+
         const photoURL = form.get("photoURL");
         const email = form.get("email");
         const password = form.get("password");
@@ -19,6 +29,16 @@ const Register = () => {
             .then((result) => {
                 const user = result.user;
                 setUser(user);
+                updateUserProfile({
+                    displayName: name,
+                    photoURL: photoURL,
+                })
+                    .then(() => {
+                        navigate("/");
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
             })
             .catch((error) => {
                 const errorCode = error.code;
@@ -46,6 +66,11 @@ const Register = () => {
                             required
                         />
                     </div>
+                    {error.name && (
+                        <label className="text-xs label text-rose-500">
+                            {error.name}
+                        </label>
+                    )}
                     <div className="form-control">
                         <label className="block mb-1 text-sm font-medium text-gray-700">
                             Photo URL
